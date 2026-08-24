@@ -35,15 +35,15 @@ jobs:
           if [ "$TAG" = "omnux-v*" ] || [ -z "$TAG" ]; then
             TAG="omnux-dev-$(date +%Y%m%d%H%M%S)"
           fi
-          cat > release-notes.md <<'NOTES'
-          Automated Omnux installer build.
-
-          Install:
-
-              curl -fsSL https://raw.githubusercontent.com/michaelmonetized/asahi-installer/omnux/scripts/bootstrap-omnux.sh | sh
-
-          M1/M2: supported. M3: experimental (software rendering). M4/M5: cannot boot Linux yet.
-          NOTES
+          printf '%s\n' \
+            'Automated Omnux installer build.' \
+            '' \
+            'Install:' \
+            '' \
+            '    curl -fsSL https://raw.githubusercontent.com/michaelmonetized/asahi-installer/omnux/scripts/bootstrap-omnux.sh | sh' \
+            '' \
+            'M1/M2: supported. M3: experimental (software rendering). M4/M5: cannot boot Linux yet.' \
+            > release-notes.md
           gh release create "$TAG" releases/* \
             --repo "$GITHUB_REPOSITORY" \
             --title "Omnux installer $TAG" \
