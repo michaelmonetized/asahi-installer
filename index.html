@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OMNUX — Linux for the Macs Apple forgot</title>
+<style>
+  :root { --ink:#f5f2ea; --paper:#0d0d0f; --fire:#ff4a1c; --dim:#8a8578; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    background:var(--paper); color:var(--ink);
+    font-family:"Iosevka","JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 24px; }
+  header { padding:96px 0 64px; }
+  h1 {
+    font-size:clamp(64px,14vw,180px); line-height:.9; letter-spacing:-.04em;
+    font-weight:800; text-transform:uppercase;
+  }
+  h1 .x { color:var(--fire); }
+  .tagline { font-size:clamp(18px,3vw,28px); margin-top:24px; max-width:46ch; color:var(--ink); }
+  .tagline em { color:var(--fire); font-style:normal; }
+  .lede { margin-top:16px; color:var(--dim); max-width:60ch; }
+  section { padding:72px 0; border-top:1px solid #26241f; }
+  h2 { font-size:clamp(28px,5vw,44px); letter-spacing:-.02em; text-transform:uppercase; margin-bottom:32px; }
+  h2 span { color:var(--fire); }
+  p { margin-bottom:20px; max-width:70ch; }
+  .install {
+    background:#161512; border:1px solid #33302a; border-radius:12px;
+    padding:24px 28px; font-size:15px; overflow-x:auto; position:relative;
+  }
+  .install .prompt { color:var(--fire); user-select:none; }
+  .install .copy-hint { position:absolute; top:10px; right:14px; color:var(--dim); font-size:11px; }
+  table { width:100%; border-collapse:collapse; margin:24px 0; font-size:14px; }
+  th,td { text-align:left; padding:10px 12px; border-bottom:1px solid #26241f; vertical-align:top; }
+  th { color:var(--dim); font-weight:600; text-transform:uppercase; font-size:11px; letter-spacing:.08em; }
+  td.yes { color:#7fd67f; } td.exp { color:#ffd166; } td.no { color:#ff6b6b; }
+  .manifesto { font-size:20px; max-width:56ch; }
+  .manifesto strong { color:var(--fire); }
+  a { color:var(--ink); text-decoration:underline; text-decoration-color:var(--fire); text-underline-offset:4px; }
+  a:hover { background:var(--fire); text-decoration:none; }
+  .btn {
+    display:inline-block; margin-top:8px; padding:14px 28px;
+    background:var(--fire); color:#0d0d0f !important; font-weight:700;
+    text-decoration:none; border-radius:6px;
+  }
+  .btn:hover { filter:brightness(1.1); }
+  .credit { color:var(--dim); font-size:13px; }
+  footer { padding:48px 0 96px; color:var(--dim); font-size:13px; }
+  @media (prefers-reduced-motion:no-preference) {
+    h1 { animation:burn 6s ease-in-out infinite alternate; }
+    @keyframes burn { from{text-shadow:0 0 24px rgba(255,74,28,.25)} to{text-shadow:0 0 48px rgba(255,74,28,.45)} }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>OMNU<span class="x">X</span></h1>
+  <p class="tagline">Linux on Apple Silicon, shipped with <em>conviction</em>. The fire of Asahi. The taste of Omarchy.</p>
+  <p class="lede">A rebranded, integration-first fork of Asahi Linux that merges public enablement work the day it exists — not whenever the release calendar gets around to it.</p>
+</header>
+
+<section id="install">
+  <h2>Install in <span>one line</span></h2>
+  <p>Run this from macOS on any M1 or M2 Mac today. M3 machines take the experimental track — see the truth table below.</p>
+  <div class="install">
+    <span class="copy-hint">⌘C or select all</span>
+    <span class="prompt">$ </span>curl -fsSL https://raw.githubusercontent.com/michaelmonetized/asahi-installer/omnux/scripts/bootstrap-omnux.sh | sh
+  </div>
+  <p style="margin-top:24px"><a class="btn" href="https://github.com/michaelmonetized/asahi-installer/releases/tag/omnux-0.1.0-alpha1-202608240553">Release notes →</a></p>
+</section>
+
+<section id="truth">
+  <h2>The truth <span>table</span></h2>
+  <p>We don't do vaporware and we don't do asterisks hidden in footnotes. Here is exactly what works, today, August 2026:</p>
+  <table>
+    <tr><th>Machines</th><th>Installer</th><th>Desktop</th><th>GPU accel</th><th>Sleep / power</th></tr>
+    <tr><td>M1 / M2 series</td><td class="yes">Ships</td><td class="yes">Full Omarchy-class Hyprland</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+    <tr><td>M3 series</td><td class="exp">Experimental — installs today</td><td class="exp">Boots; software-rendered until our GPU driver lands</td><td class="no">In progress</td><td class="no">No</td></tr>
+    <tr><td>M4 series</td><td class="no">Not yet</td><td class="no">NVMe + bring-up merged ahead of upstream</td><td class="no">—</td><td class="no">—</td></tr>
+    <tr><td>M5 series</td><td class="no">Not yet</td><td class="no">Nothing exists anywhere on Earth yet</td><td class="no">—</td><td class="no">—</td></tr>
+  </table>
+  <p>Anyone who tells you different is selling you something.</p>
+</section>
+
+<section id="why">
+  <h2>Why we <span>exist</span></h2>
+  <p class="manifesto">
+    Asahi Linux performed one of the greatest reverse-engineering feats in the history
+    of free software. Then upstream moved at the speed of caution. Omnux is what happens
+    when you refuse to wait.
+  </p>
+  <p>
+    Every public patch that makes an Apple Silicon machine more of a computer — the M4 NVMe driver,
+    M3 power management, the DCP display ABI, USB-C PHY fixes — lands in Omnux within days,
+    build-validated, packaged, and shipped through a release pipeline that runs on our own hardware.
+    No third-party CI gatekeeper. No waiting.
+  </p>
+  <p>
+    And the piece upstream hasn't finished? <strong>The M3 GPU driver is being built by us,
+    under the MIT license.</strong> When it's done, upstream can have it — and so can everyone else,
+    forever, no strings attached.
+  </p>
+</section>
+
+<section id="stack">
+  <h2>Built on <span>giants</span></h2>
+  <p>Omnux stands on the shoulders of the Asahi Linux team — Hector Martin, the GPU
+  reverse-engineering crew, and every contributor who proved locked silicon isn't impossible silicon.
+  Everything we produce flows back upstream first. Our forks carry only what hasn't merged yet.</p>
+  <p class="credit">Asahi Linux · Arch Linux ARM · Omarchy · the Linux kernel community.</p>
+</section>
+
+<section id="links">
+  <h2>Go <span>deeper</span></h2>
+  <table>
+    <tr><td><a href="https://github.com/michaelmonetized/asahi-installer/blob/main/SUPPORT.md">Support matrix (full detail)</a></td></tr>
+    <tr><td><a href="https://github.com/michaelmonetized/asahi-installer">asahi-installer fork</a> · <a href="https://github.com/michaelmonetized/linux/tree/omnux">kernel integration branch</a> · <a href="https://github.com/michaelmonetized/m1n1/tree/omnux">m1n1 stack</a> · <a href="https://github.com/michaelmonetized/PKGBUILDs/tree/omnux">packages</a></td></tr>
+    <tr><td><a href="https://github.com/AsahiLinux">Upstream Asahi Linux</a> — support them</td></tr>
+  </table>
+</section>
+
+<footer>
+  OMNUX — free and open source. MIT where we wrote it, GPL where we must.
+  No promises without proof. Built by michaelmonetized and the Omnux contributors.
+</footer>
+
+</div>
+</body>
+</html>
