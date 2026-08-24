@@ -15,8 +15,8 @@ Status legend:
 | Machine class | Installer | Boot (m1n1) | Display | GPU accel | Notes |
 | --- | --- | --- | --- | --- | --- |
 | M1 / M2 series | Stable | Stable | Stable | Stable | Asahi upstream baseline |
-| M3 (T8122) | Experimental | Working | WIP (iBoot fb) | In progress (DRM driver) | CPUfreq, NVMe, WiFi, BT, audio, keyboard/trackpad working upstream |
-| M3 Pro/Max/Ultra (T603x) | Experimental | Working | WIP | TBA | Same as M3 base |
+| M3 (T8122) | **Experimental — installable today** via `OMNUX_EXPERIMENTAL=1` or expert mode | Working | WIP (iBoot fb) | In progress (DRM driver) | CPUfreq, NVMe, WiFi, BT, audio, keyboard/trackpad working upstream; desktop is software-rendered until the M3 GPU driver lands |
+| M3 Pro/Max/Ultra (T603x) | Experimental — same path | Working | WIP | TBA | Same as M3 base |
 | M4 base (T8132) | Not yet | Partial — NVMe/MCC/ATC in Omnux m1n1 | Nothing yet | Nothing yet | NVMe driver + devicetrees landed in Omnux kernel; needs ADT-derived DT nodes from real hardware |
 | M4 Pro/Max (T604x/T8140) | Not yet | Partial — PCIe/MCC PRs merged in Omnux m1n1 | Nothing yet | Nothing yet | Skeleton DTs still RFC upstream |
 | M5 series | Nothing yet | Nothing yet | Nothing yet | Nothing yet | No public reverse engineering exists |
