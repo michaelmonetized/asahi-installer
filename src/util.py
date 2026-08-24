@@ -10,8 +10,10 @@ else:
 COMPRESSION_LZFSE = 0x801
 CHUNK_SIZE = 0x10000
 
-DISTRO = os.environ.get("DISTRO", "Asahi Linux")
-DISTRO_DOCS = os.environ.get("DISTRO_DOCS", "https://alx.sh/w")
+DISTRO = os.environ.get("DISTRO", "Omnux Linux")
+DISTRO_DOCS = os.environ.get("DISTRO_DOCS", "https://omnux.dev/docs")
+SUPPORT_MATRIX = os.environ.get("OMNUX_MATRIX",
+                                "https://github.com/michaelmonetized/asahi-installer/blob/omnux/SUPPORT.md")
 
 def ssize(v):
     suffixes = ["B", "KB", "MB", "GB", "TB"]
