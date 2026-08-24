@@ -36,7 +36,6 @@
   table { width:100%; border-collapse:collapse; margin:24px 0; font-size:14px; }
   th,td { text-align:left; padding:10px 12px; border-bottom:1px solid #26241f; vertical-align:top; }
   th { color:var(--dim); font-weight:600; text-transform:uppercase; font-size:11px; letter-spacing:.08em; }
-  td.yes { color:#7fd67f; } td.exp { color:#ffd166; } td.no { color:#ff6b6b; }
   .manifesto { font-size:20px; max-width:56ch; }
   .manifesto strong { color:var(--fire); }
   a { color:var(--ink); text-decoration:underline; text-decoration-color:var(--fire); text-underline-offset:4px; }
@@ -47,6 +46,16 @@
     text-decoration:none; border-radius:6px;
   }
   .btn:hover { filter:brightness(1.1); }
+  .truth { list-style:none; max-width:78ch; }
+  .truth > li { margin-bottom:36px; }
+  .truth > li > strong {
+    color:var(--fire); text-transform:uppercase; font-size:17px;
+    letter-spacing:.03em; display:block; margin-bottom:12px;
+  }
+  .truth ul { list-style:none; margin-left:4px; }
+  .truth ul li { position:relative; padding-left:24px; margin-bottom:7px; font-size:15px; }
+  .truth ul li::before { content:"▸"; position:absolute; left:2px; color:var(--dim); }
+  .ok { color:#7fd67f; } .wip { color:#ffd166; } .no { color:#ff6b6b; }
   .credit { color:var(--dim); font-size:13px; }
   footer { padding:48px 0 96px; color:var(--dim); font-size:13px; }
   @media (prefers-reduced-motion:no-preference) {
@@ -60,7 +69,7 @@
 
 <header>
   <h1>OMNU<span class="x">X</span></h1>
-  <p class="tagline">Linux on Apple Silicon, shipped with <em>conviction</em>. The fire of Asahi. The taste of Omarchy.</p>
+  <p class="tagline">Linux on Apple silicon, shipped with conviction, no holds barred. The fire of Omarchy on the foundation of Asahi.</p>
   <p class="lede">A rebranded, integration-first fork of Asahi Linux that merges public enablement work the day it exists — not whenever the release calendar gets around to it.</p>
 </header>
 
@@ -76,15 +85,57 @@
 
 <section id="truth">
   <h2>The truth <span>table</span></h2>
-  <p>We don't do vaporware and we don't do asterisks hidden in footnotes. Here is exactly what works, today, August 2026:</p>
-  <table>
-    <tr><th>Machines</th><th>Installer</th><th>Desktop</th><th>GPU accel</th><th>Sleep / power</th></tr>
-    <tr><td>M1 / M2 series</td><td class="yes">Ships</td><td class="yes">Full Omarchy-class Hyprland</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
-    <tr><td>M3 series</td><td class="exp">Experimental — installs today</td><td class="exp">Boots; software-rendered until our GPU driver lands</td><td class="no">In progress</td><td class="no">No</td></tr>
-    <tr><td>M4 series</td><td class="no">Not yet</td><td class="no">NVMe + bring-up merged ahead of upstream</td><td class="no">—</td><td class="no">—</td></tr>
-    <tr><td>M5 series</td><td class="no">Not yet</td><td class="no">Nothing exists anywhere on Earth yet</td><td class="no">—</td><td class="no">—</td></tr>
-  </table>
-  <p>Anyone who tells you different is selling you something.</p>
+  <p>We don't do vaporware and we don't hide asterisks in footnotes. Here is every blocker, by silicon generation, as of August 2026:</p>
+
+  <ul class="truth">
+    <li id="m1m2">
+      <strong>M1 / M2 series — shipping</strong>
+      <ul>
+        <li><span class="ok">Nothing blocking.</span> Upstream Asahi baseline: full display, GPU acceleration, sleep, Thunderbolt, audio, TouchID (auth via PAM). This is the daily-driver track.</li>
+      </ul>
+    </li>
+
+    <li id="m3">
+      <strong>M3 series — experimental, installs today</strong>
+      <ul>
+        <li><span class="ok">Working now:</span> NVMe storage, WiFi, Bluetooth, keyboard &amp; trackpad, CPU frequency scaling with big.LITTLE scheduling, speaker &amp; headphone-jack audio, PCIe.</li>
+        <li><span class="no">GPU driver — the big one.</span> M3's GPU is a new architecture: Dynamic Caching, mesh shaders, hardware ray tracing, changed instruction encoding. Driver work is actively reverse-engineered but not finished. Until it lands, the desktop runs on software rendering — slow, hot, battery-hungry.</li>
+        <li><span class="no">Display (DCP) driver.</span> M3 machines can't run macOS 13.5, and Apple changed the DCP firmware interface for macOS 14. We currently inherit a framebuffer initialized by iBoot: no mode setting, no backlight control, inefficient scanout. New firmware ABI needs tracing against real hardware.</li>
+        <li><span class="wip">Brightness, display hotplug, HDMI out</span> — all downstream of proper DCP bring-up.</li>
+        <li><span class="wip">Thunderbolt &amp; USB3 on TB ports, DP alt mode</span> — controller support WIP; USB-C data works on some ports.</li>
+        <li><span class="wip">Sleep/suspend and power-domain validation</span> — unproven; expect to shut down instead of sleeping for now.</li>
+        <li><span class="wip">Webcam, microphones</span> — not yet enabled on base M3.</li>
+        <li><span class="wip">Installer GA</span> — upstream still marks the M3 installer WIP. Our experimental track bypasses that gate with explicit warnings; it is not a supported install.</li>
+        <li><span class="no">M3 Ultra (T6032)</span> — nearly everything above is TBA including DCP and USB; treat as unsupported even experimentally.</li>
+        <li><span class="no">TouchID, Secure Enclave</span> — TBA across all M3 variants.</li>
+      </ul>
+    </li>
+
+    <li id="m4">
+      <strong>M4 series — not bootable yet, bring-up underway</strong>
+      <ul>
+        <li><span class="ok">Already merged ahead of upstream (in Omnux):</span> m1n1 memory-controller + SART v4 + NVMe boot support for T8132, SMP reservation for M4, PCIe groundwork for T8140 (Pro/Max), kernel driver for M4's ANS2 NVMe variant, SMC/keyboard devicetrees for j604 desktops.</li>
+        <li><span class="no">Devicetrees are the hard wall.</span> Register bases, interrupt numbers and power domains for NVMe, SART, mailboxes and PCIe can only come from ADT dumps of physical M4 hardware. Without those dumps, nodes cannot be written — guessing would produce dead code. If you own an M4 Mac, you are the missing contributor.</li>
+        <li><span class="no">Display path: zero.</span> No DCP bring-up has started publicly for M4; even the iBoot-framebuffer trick is unproven on this silicon.</li>
+        <li><span class="no">GPU: zero public reverse engineering.</span> Presumed another ISA delta on top of M3's.</li>
+        <li><span class="no">Power management unknown</span> — PMP/pmgr offsets undocumented; cpufreq unproven.</li>
+        <li><span class="no">Firmware risk:</span> M4 machines ship with macOS versions whose firmware interfaces haven't been traced at all.</li>
+        <li><span class="no">Installer: no entries yet.</span> The chip IDs are known to our messaging layer only so we can tell M4 owners the truth instead of failing cryptically.</li>
+      </ul>
+    </li>
+
+    <li id="m5">
+      <strong>M5 series — nothing exists anywhere on Earth yet</strong>
+      <ul>
+        <li><span class="no">No public reverse engineering has begun.</span> No ADT analysis, no m1n1 support, no devicetrees, no drivers, no installer knowledge. Announced March 2026 ("Fusion Architecture" Pro/Max); nobody outside Apple has booted Linux on one, not even to a serial console.</li>
+        <li><span class="no">Boot protocol itself unknown</span> — whether the existing iBoot → m1n1 chain loads at all, what changed in boot security, how the new architecture affects low-level init.</li>
+        <li><span class="ok">Prerequisite work already landing:</span> better handling of Apple's non-macOS boot mode and new power-domain metadata (built for M4/A18-Pro bring-up) directly de-risks day one on M5.</li>
+        <li>The realistic sequence once hardware exists: ADT dump → serial bring-up → core SoC blocks → storage/input → display → GPU. That's a multi-quarter effort starting from the day someone puts a machine on a lab bench. We will integrate every scrap of it the moment it becomes public.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <p>Anyone who tells you different is selling you something. Full per-machine detail lives in the <a href="https://github.com/michaelmonetized/asahi-installer/blob/main/SUPPORT.md">support matrix</a>.</p>
 </section>
 
 <section id="why">
