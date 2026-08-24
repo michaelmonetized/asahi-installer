@@ -51,6 +51,15 @@ CHIP_MIN_VER = {
     0x6034: "14.8.3",   # T6034, M3 Max (14-core)
 }
 
+# Chips with public enablement work in progress (Omnux tracks these
+# upstream; see the support matrix). Used only for better messaging.
+KNOWN_CHIP_NAMES = {
+    0x8132: "Apple M4 (T8132)",
+    0x6040: "Apple M4 Pro (T6040)",
+    0x6041: "Apple M4 Max (T6041)",
+    0x8140: "Apple T8140",
+}
+
 DEVICES = {
     "j274ap":   Device("11.0", False),  # Mac mini (M1, 2020)
     "j293ap":   Device("11.0", False),  # MacBook Pro (13-inch, M1, 2020)
@@ -955,7 +964,7 @@ class InstallerMain:
         self.expert = False
         if os.environ.get("EXPERT", None):
             p_message("By default, this installer will hide certain advanced options that")
-            p_message("are only useful for Asahi Linux developers. You can enable expert mode")
+            p_message("are only useful for Omnux developers. You can enable expert mode")
             p_message("to show them. Do not enable this unless you know what you are doing.")
             p_message("Please do not file bugs if things go wrong in expert mode.")
             self.expert = self.yesno("Enable expert mode?")
@@ -970,13 +979,47 @@ class InstallerMain:
 
         self.chip_min_ver = CHIP_MIN_VER.get(self.sysinfo.chip_id, None)
         self.device = DEVICES.get(self.sysinfo.device_class, None)
+
+        omnux_experimental = os.environ.get("OMNUX_EXPERIMENTAL", None)
+
         if not self.chip_min_ver or not self.device or (self.device.expert_only and not self.expert):
-            p_error("This device is not supported yet!")
-            p_error("Please check out the Asahi Linux Blog for updates on device support:")
-            print()
-            p_error("   https://asahilinux.org/blog/")
-            print()
-            sys.exit(1)
+            chip_name = KNOWN_CHIP_NAMES.get(self.sysinfo.chip_id)
+
+            if (self.chip_min_ver and self.device
+                    and self.device.expert_only
+                    and self.expert):
+                pass  # expert mode already allows this device
+            elif (self.chip_min_ver and self.device
+                    and self.device.expert_only
+                    and omnux_experimental):
+                p_error("*** OMNUX EXPERIMENTAL INSTALL ***")
+                p_message(f"This machine ({self.sysinfo.device_class}) is in the "
+                          f"Omnux experimental bring-up track.")
+                p_message("Core SoC blocks may work; display acceleration, "
+                          "power management and sleep likely do not.")
+                p_message("Do not file bugs against Omnux or Asahi Linux from an "
+                          "experimental install.")
+                print()
+                if not self.yesno("I understand this can leave my Mac unbootable "
+                                  "into macOS until repaired. Continue?"):
+                    sys.exit(1)
+                print()
+            else:
+                p_error("This device is not supported yet!")
+                if chip_name:
+                    p_error(f"Detected: {chip_name}. Enablement work is in progress,")
+                    p_error("but this installer cannot set it up safely today.")
+                elif self.device:
+                    p_error(f"Known machine ({self.sysinfo.device_class}) on an "
+                            f"unknown chip id {self.sysinfo.chip_id:#x}.")
+                else:
+                    p_error(f"Unknown machine ({self.sysinfo.device_class}, "
+                            f"chip {self.sysinfo.chip_id:#x}).")
+                p_error("Track enablement progress in the Omnux support matrix:")
+                print()
+                p_error(f"   {SUPPORT_MATRIX}")
+                print()
+                sys.exit(1)
 
         if self.sysinfo.boot_mode == "macOS" and (
             (not self.sysinfo.login_user)
