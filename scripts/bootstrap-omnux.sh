@@ -55,11 +55,14 @@ if true; then
             fi
             export OMNUX_EXPERIMENTAL=1
             ;;
-        *M4*|*M5*|*T8132*|*T6040*|*T6041*)
+        *M4*|*M5*|*M6*|*T8132*|*T6040*|*T6041*)
             echo "Detected: $CHIP"
             echo
-            echo "M4/M5 machines cannot boot Linux yet — anywhere. The required"
-            echo "hardware enablement has not been reverse-engineered."
+            echo "M4-, M5- and M6-class machines cannot boot Linux yet — anywhere."
+            echo "The required hardware enablement has not been reverse-engineered."
+            echo "Newer machines (Mac mini M6/M5 Pro, Mac Studio M5 Max/Ultra, all"
+            echo "announced August 25, 2026) are in the same boat until public"
+            echo "patches exist; we integrate them the day they do."
             echo "Track progress at the support matrix:"
             echo "https://github.com/michaelmonetized/asahi-installer/blob/omnux/SUPPORT.md"
             exit 1

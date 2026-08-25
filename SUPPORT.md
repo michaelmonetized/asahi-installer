@@ -19,7 +19,10 @@ Status legend:
 | M3 Pro/Max/Ultra (T603x) | Experimental — same path | Working | WIP | TBA | Same as M3 base |
 | M4 base (T8132) | Not yet | Partial — NVMe/MCC/ATC in Omnux m1n1 | Nothing yet | Nothing yet | NVMe driver + devicetrees landed in Omnux kernel; needs ADT-derived DT nodes from real hardware |
 | M4 Pro/Max (T604x/T8140) | Not yet | Partial — PCIe/MCC PRs merged in Omnux m1n1 | Nothing yet | Nothing yet | Skeleton DTs still RFC upstream |
-| M5 series | Nothing yet | Nothing yet | Nothing yet | Nothing yet | No public reverse engineering exists |
+| M5 base / M5 Pro | Nothing yet | Nothing yet | Nothing yet | Nothing yet | No public reverse engineering exists |
+| M5 Max / M5 Ultra (Mac Studio, announced 2026-08-25) | Nothing yet | Nothing yet | Nothing yet | Nothing yet | Machines reach customers September 22, 2026; earliest realistic ADT-dump date |
+| M6 series (Mac mini, announced 2026-08-25) | Nothing yet | Nothing yet | Nothing yet | Nothing yet | Apple's first 2nm chip, new core topology; SoC identifiers not public yet — this row updates the day they are |
+| M6 Pro/Max/Ultra | Nothing yet | Nothing yet | Nothing yet | Nothing yet | Not announced; expected per normal cadence |
 
 ## What the Omnux fork changes vs upstream
 
