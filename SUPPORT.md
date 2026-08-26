@@ -37,6 +37,15 @@ Status legend:
 3. **Installer**: Omnux branding; three-tier gating with honest messaging;
    `OMNUX_EXPERIMENTAL=1` escape hatch for M3-class machines.
 
+## TouchID status
+
+| Chip | TouchID | Notes |
+| --- | --- | --- |
+| T1 (2016-17 TouchBar) | **Working** | Omarchy-first. Community contributor @0xBOYD3 confirmed working on Omarchy — first known Linux TouchID implementation on Apple hardware. [x.com thread](https://x.com/0xBOYD3/status/2092632959807348905) |
+| T2 (2018-2020) | In progress | Boyd plans to test next; T2 Secure Enclave is hardened vs T1 but same attack surface family |
+| M1/M2 series | Not yet | Secure Enclave coprocessor; no public bypass exists. SEP firmware is signed and locked down |
+| M3+ | Not yet | Same as M1/M2; higher priority is GPU acceleration first |
+
 ## Hard blockers we will not fake
 
 M4-class machines need device tree nodes whose register bases and interrupt
